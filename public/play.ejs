@@ -1,0 +1,76 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Course Title: <%= title %></title>
+  <style>
+    body {
+      margin: 0;
+      display: flex;
+      flex-direction: column; 
+      align-items: center;
+      height: 100vh;
+    }
+
+    #background-img {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -1;
+    }
+
+    #video-container {
+      border: 2px solid #120000;
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+      margin-top: 20px; 
+    }
+
+    video {
+      width: 100%;
+      display: block;
+    }
+
+    #download-btn {
+      margin-top: 10px;
+      background-color: #3498db;
+      color: #fff;
+      padding: 10px 15px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <img id="background-img" src="/images/play.jpg" alt="Background Image">
+
+  <h1 style="text-align: center; color: #070607;">Playing Video: <%= title %></h1>
+
+  <div id="video-container">
+    <video controls width="600">
+      <source src="/uploads/<%= filename %>" type="video/mp4">
+      Your browser does not support the video tag.
+    </video>
+  </div>
+  <h1></h1>
+
+  <button id="download-btn" onclick="downloadVideo()">Download Video</button>
+
+  <script>
+    function downloadVideo() {
+      var link = document.createElement('a');
+      link.href = '/uploads/<%= filename %>';
+      link.download = '<%= title %>.mp4';
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    }
+  </script>
+</body>
+</html>

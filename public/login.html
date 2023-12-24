@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="login.css">
+    <title>Login</title>
+</head>
+<body>
+    <div class="login-container">
+        <h2>Login</h2>
+        <form id="loginForm">
+            <div id="errorMessage" style="color: red;"></div>
+            <label for="email">Email:</label>
+            <input type="email" id="em" name="email" required>
+            
+            <label for="password">Password:</label>
+            <input type="password" id="pd" name="password" required>
+            
+            <button type="button" onclick="loginUser()">Login</button>
+        </form>
+        <p>Don't have an account? <a href="/register">Register here</a></p>
+    </div>
+    <script>
+        async function loginUser() {
+          // Get the form data
+          var formData = {
+            email: document.getElementById('em').value,
+            password: document.getElementById('pd').value
+          };
+    
+          try {
+            
+            const response = await fetch('/login', {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json'
+              },
+              body: JSON.stringify(formData)
+            });
+    
+            if (response.ok) {
+            
+              window.location.href = response.headers.get('Location') || '/';
+            } else {
+            
+              const error = await response.json();
+              console.error('Error:', error.message);
+              document.getElementById('errorMessage').innerText = 'Error: ' + error.message;
+            }
+          } catch (error) {
+            console.error('Error:', error);
+          }
+        }
+    </script>
+</body>
+</html>

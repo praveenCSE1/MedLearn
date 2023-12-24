@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/style.css">
+    <title>File Upload</title>
+</head>
+<body>
+
+<div class="container">
+    <h1>File Upload</h1>
+    <form action="/upload" method="post" enctype="multipart/form-data">
+        <h2>Give title for the video</h2>
+        <input type="text" name="title" id="titleInput" required />
+        <input type="file" name="video" id="fileInput" class="inputfile" />
+        <label for="fileInput">Choose a file</label>
+        <button type="submit">Upload Video</button>
+       
+    </form>
+    
+</div>
+<a href="/upload_pdf" class="redirect-btn">upload pdf</a>
+
+</body>
+</html>

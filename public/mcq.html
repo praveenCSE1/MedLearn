@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MCQ Quiz</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            background-image: url('images/ss.jpg');
+            padding: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            background-color: #f4f4f4;
+        }
+
+        #quiz-container {
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            text-align: center;
+        }
+
+        #options-container {
+            
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            
+        }
+
+        button {
+            color: #2e2b2b;
+            border: none;
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            border-radius: 4px;
+            margin-top: 10px;
+            display: block;
+    
+            margin-bottom: 10px;
+        }
+
+        button.selected {
+            background-color: orange;
+          
+        }
+
+        #next-button {
+            background-color: #28a745;
+           
+            width: 180px;
+           
+            margin: 0 auto;
+            
+        }
+        #topic-selection button {
+    width: 200px; 
+    background-color: #24bf4e;
+    color: #fff;
+    border: none;
+    padding: 10px;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 4px;
+    margin-top: 10px;
+    display: block;
+    margin-bottom: 10px;
+    transition: background-color 0.3s ease;
+}
+
+#topic-selection button:hover {
+    background-color: #0a7017;
+}
+
+
+    </style>
+</head>
+
+<body>
+    <div id="quiz-container">
+        <h1>MCQ Quiz</h1>
+        <div id="topic-selection">
+            <h3>Topics</h3>
+            <button onclick="loadTopic('Cardiology')">Cardiology</button>
+            <button onclick="loadTopic('ECG')">ECG</button>
+            <button onclick="loadTopic('Anesthesia')">Anesthesia</button>
+        </div>
+        <div id="question-container"></div>
+        <div id="options-container"></div>
+        <button id="next-button" style="display:none;" onclick="showNextQuestion()">Next</button>
+    </div>
+
+    <script>
+        const quizData = {
+            'Cardiology': [
+                {
+                    question: 'Which valve separates the left atrium from the left ventricle?',
+                    options: ['Tricuspid valve', 'Mitral valve', 'Aortic valve', 'Pulmonary valve'],
+                    correctAnswer: 'Mitral valve'
+                },
+                {
+                    question: 'What is the medical term for high blood pressure?',
+                    options: ['Hypotension', 'Hypertension', 'Hypoglycemia', 'Hyperglycemia'],
+                    correctAnswer: 'Hypertension'
+                },
+                {
+                    question: 'Which vessel carries oxygenated blood from the lungs to the heart?',
+                    options: ['Aorta', 'Pulmonary artery', 'Superior vena cava', 'Pulmonary vein'],
+                    correctAnswer: 'Pulmonary vein'
+                },
+            ],
+            'ECG': [
+                {
+                    question: 'What does the term "ECG" stand for?',
+                    options: ['Electrocardiogram', 'Echocardiogram', 'Electrochemical Gradient', 'Endocardial Conduction'],
+                    correctAnswer: 'Electrocardiogram'
+                },
+                {
+                    question: 'In a standard ECG, what does the P wave represent?',
+                    options: ['Atrial depolarization', 'Ventricular depolarization', 'Atrial repolarization', 'Ventricular repolarization'],
+                    correctAnswer: 'Atrial depolarization'
+                },
+                {
+                    question: 'What is the normal duration of a QRS complex in milliseconds?',
+                    options: ['Less than 100 ms', '100-120 ms', '120-200 ms', 'More than 200 ms'],
+                    correctAnswer: 'Less than 100 ms'
+                },
+            ],
+            'Anesthesia': [
+                {
+                    question: 'What is the primary goal of general anesthesia?',
+                    options: ['Pain relief', 'Muscle relaxation', 'Loss of consciousness', 'Sensory block'],
+                    correctAnswer: 'Loss of consciousness'
+                },
+                {
+                    question: 'Which drug is commonly used as an intravenous induction agent in anesthesia?',
+                    options: ['Propofol', 'Fentanyl', 'Midazolam', 'Ketamine'],
+                    correctAnswer: 'Propofol'
+                },
+                {
+                    question: 'What is the purpose of endotracheal intubation during anesthesia?',
+                    options: ['Administering medication', 'Monitoring blood pressure', 'Ensuring airway patency', 'Measuring oxygen saturation'],
+                    correctAnswer: 'Ensuring airway patency'
+                },
+            ]
+        };
+
+        const quizContainer = document.getElementById('quiz-container');
+        const topicSelectionContainer = document.getElementById('topic-selection');
+        const questionContainer = document.getElementById('question-container');
+        const optionsContainer = document.getElementById('options-container');
+        const nextButton = document.getElementById('next-button');
+
+        let currentTopic = '';
+        let currentQuestionIndex = 0;
+        let userAnswers = [];
+
+        function loadTopic(topic) {
+            currentTopic = topic;
+            currentQuestionIndex = 0;
+            userAnswers = [];
+            loadQuestion();
+            nextButton.style.display = 'block';
+            topicSelectionContainer.style.display = 'none';
+        }
+
+        function loadQuestion() {
+            const currentQuestion = quizData[currentTopic][currentQuestionIndex];
+
+            questionContainer.textContent = `Question ${currentQuestionIndex + 1}: ${currentQuestion.question}`;
+            optionsContainer.innerHTML = '';
+
+            for (let i = 0; i < currentQuestion.options.length; i++) {
+                const option = document.createElement('button');
+                option.textContent = currentQuestion.options[i];
+                option.addEventListener('click', () => selectAnswer(option, currentQuestion.options[i]));
+                optionsContainer.appendChild(option);
+            }
+        }
+
+        function selectAnswer(selectedOption, answer) {
+            userAnswers[currentQuestionIndex] = answer;
+
+            
+            const options = optionsContainer.querySelectorAll('button');
+            options.forEach(option => option.classList.remove('selected'));
+
+           
+            selectedOption.classList.add('selected');
+        }
+
+        function showNextQuestion() {
+            currentQuestionIndex++;
+            if (currentQuestionIndex < quizData[currentTopic].length) {
+                loadQuestion();
+            } else {
+                showResults();
+            }
+        }
+
+        function showResults() {
+            let correctCount = 0;
+
+            quizContainer.innerHTML = `<h2>${currentTopic} Quiz Completed!</h2>`;
+            for (let i = 0; i < quizData[currentTopic].length; i++) {
+                const result = document.createElement('p');
+                const isCorrect = userAnswers[i] === quizData[currentTopic][i].correctAnswer;
+                result.textContent = `Question ${i + 1}: ${isCorrect ? 'Correct' : 'Incorrect'}`;
+                quizContainer.appendChild(result);
+
+                if (isCorrect) {
+                    correctCount++;
+                }
+            }
+
+            const totalCorrect = document.createElement('p');
+            totalCorrect.textContent = `Total Correct Answers: ${correctCount}`;
+            quizContainer.appendChild(totalCorrect);
+
+            nextButton.style.display = 'none';
+        }
+    </script>
+</body>
+
+</html>

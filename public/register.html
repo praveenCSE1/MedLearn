@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="register.css">
+  <title>User Registration</title>
+</head>
+<body>
+  <div class="container">
+    <h1>User Registration</h1>
+    <div id="errorMessage"></div>
+
+    <form id="registrationForm">
+      <label for="email">Email:</label>
+      <input type="email" id="email" name="email" required>
+
+      <label for="password">Password:</label>
+      <input type="password" id="password" name="password" required>
+
+      <div>
+        <button type="button" onclick="registerUser()">Register</button>
+        <span style="margin-left: 10px;">Already have an account? <a href="/login">Login</a></span>
+      </div>
+      <h3>or</h3>
+
+      
+      <button type="button" class="google-login" onclick="loginWithGoogle()">Login with Google</button>
+    </form>
+  </div>
+
+  <script>
+    function loginWithGoogle() {
+     
+      window.location.href = '/google';
+    }
+    function registerUser() {
+     
+      var formData = {
+        email: document.getElementById('email').value,
+        password: document.getElementById('password').value
+      };
+
+      
+      fetch('/reg', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(formData)
+      })
+      .then(response => {
+        if (response.status === 302) {
+          
+          window.location.href = '/login'; 
+        } else {
+          
+          return response.json().then(error => {
+            console.error('Error:', error.message);
+            document.getElementById('errorMessage').innerText = 'Error: ' + error.message;
+           
+          });
+        }
+      })
+      .catch(error => {
+        console.error('Error:', error);
+      });
+    }
+  </script>
+</body>
+</html>

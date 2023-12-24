@@ -1,0 +1,99 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="home.css">
+
+    <link href='https://unpkg.com/boxicons@2.1.1/css/boxicons.min.css' rel='stylesheet'>
+
+    <title>MedLearn</title>
+</head>
+
+<body>
+
+    <nav>
+        <div class="nav-bar">
+            <i class='bx bx-menu sidebarOpen'></i>
+            <span class="logo navLogo"><a href="#">MedLearn</a></span>
+
+            <div class="menu">
+                <div class="logo-toggle">
+
+                </div>
+
+                <ul class="nav-links">
+                    <li><a href="/">Home</a></li>
+                    <li><a href="/playlist">Courses</a></li>
+                    <li><a href="/view-pdf">StudyMaterials</a></li>
+                    <li><a href="/mcq">MCQ</a></li>
+                    <li><a href="/upload">Admin</a></li>
+                    <!-- Update id attributes in the following lines -->
+                    <li id="signInButton">
+                        <a href="/register" id="signInLink">Sign In</a>
+                    </li>
+                    <li id="logoutButton" style="display:none;">
+                        <a href="/logout" id="logoutLink">Logout</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+
+    <div class="search-field">
+        <form action="/playlist" method="GET">
+            <input type="text" name="search" placeholder="Search for courses...">
+            <button type="submit"><i class='bx bx-search'></i></button>
+        </form>
+    </div>
+
+
+    <section class="about-section">
+        <h2>About Medical Education</h2>
+        At MedLearn Hub, we are committed to revolutionizing medical education by providing a dynamic platform that houses
+        a wealth of comprehensive lectures and courses. Our mission is to empower medical professionals, students, and
+        enthusiasts with the knowledge and skills necessary to excel in the ever-evolving field of healthcare.
+    </section>
+    
+    <script>
+        const nav = document.querySelector("nav"),
+            sidebarOpen = document.querySelector(".sidebarOpen"),
+            sidebarClose = document.querySelector(".sidebarClose");
+
+        const signInButton = document.getElementById("signInButton");
+        const logoutButton = document.getElementById("logoutButton");
+
+        sidebarOpen.addEventListener("click", () => {
+            nav.classList.add("active");
+        });
+
+        sidebarClose.addEventListener("click", () => {
+            nav.classList.remove("active");
+        });
+
+        document.body.addEventListener("click", e => {
+            let clickedElm = e.target;
+
+            if (!clickedElm.classList.contains("sidebarOpen") && !clickedElm.classList.contains("menu")) {
+                nav.classList.remove("active");
+            }
+        });
+        console.log(isAuthenticated)
+
+        if (isAuthenticated) {
+            signInButton.style.display = "none";
+            logoutButton.style.display = "block";
+        } else {
+            signInButton.style.display = "block";
+            logoutButton.style.display = "none";
+        }
+    </script>
+
+</body>
+
+</html>
