@@ -35,6 +35,7 @@ passport.use(new GoogleStrategy({
   clientSecret: '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',
 
   callbackURL: "https://medlearn-4d6m.onrender.com/google/callback"
+
 },
 async function(accessToken, refreshToken, profile, cb) {
   try {
