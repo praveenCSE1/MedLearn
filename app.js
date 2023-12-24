@@ -33,7 +33,7 @@ app.use(session({
 passport.use(new GoogleStrategy({
   clientID: '565973034924-a7h65f205dp4rcv2nc7cn4u3q2onh64q.apps.googleusercontent.com',
   clientSecret: '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',
-  callbackURL: "http://localhost:3500/google/callback"
+  callbackURL: "https://medlearn-4d6m.onrender.com/google/callback"
 },
 async function(accessToken, refreshToken, profile, cb) {
   try {
