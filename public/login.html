@@ -41,7 +41,7 @@
     
             if (response.ok) {
             
-              window.location.href = response.headers.get('Location') || '/';
+              window.location.href = response.headers.get('Location') || '/signed';
             } else {
             
               const error = await response.json();
