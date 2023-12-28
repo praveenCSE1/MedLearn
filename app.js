@@ -337,6 +337,12 @@ app.get('/register', (req, res) => {
   
   res.sendFile(path.join(__dirname, 'public', 'register.html'));
 });
+app.get('/signed', (req, res) => {
+  
+  isAuthenticated = true;
+  
+  res.sendFile(path.join(__dirname, 'public', 'signed.html'));
+});
 
 app.get('/', (req, res) => {
   
