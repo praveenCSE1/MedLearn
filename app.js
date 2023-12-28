@@ -93,7 +93,7 @@ app.get('/google/callback',
   function(req, res) {
     
     a=1;
-    res.redirect('/');
+    res.redirect('/signed');
   });
 
 
